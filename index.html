@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chant Tracker</title>
+    <meta name="description" content="Track your daily chanting progress">
+    <meta name="theme-color" content="#FF9933">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕉️</text></svg>">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Chant Tracker</h1>
+            <div id="date-display" class="date-display"></div>
+        </header>
+
+        <main>
+            <div class="card">
+                <h2>Today's Target</h2>
+                <div class="target-display">
+                    <span id="daily-target">108</span>
+                    <small>chants per day</small>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Today's Progress</h2>
+                <div class="progress-section">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        <div class="progress-text" id="progress-text">0 / 0</div>
+                    </div>
+
+                    <div class="input-section">
+                        <div class="input-group">
+                            <label for="chants-input">Add Chants Completed:</label>
+                            <input type="number" id="chants-input" min="0" placeholder="Enter number">
+                        </div>
+                        <button id="add-chants" class="btn-primary">Add to Today</button>
+                        <button id="reset-today" class="btn-secondary">Reset Today</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Chanting Activity</h2>
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="calendar-year-title" id="calendar-year-title">2026</div>
+                        <div class="calendar-nav">
+                            <button id="prev-quarter">← Previous</button>
+                            <button id="next-quarter">Next →</button>
+                        </div>
+                    </div>
+                    <div class="calendar-wrapper">
+                        <div class="calendar-months" id="calendar-months">
+                            <!-- Month labels will be populated here -->
+                        </div>
+                        <div class="calendar-grid-wrapper" id="calendar-grid">
+                            <!-- Calendar rows will be populated here -->
+                        </div>
+                    </div>
+                    <div class="calendar-legend">
+                        <span class="legend-label">Less</span>
+                        <div class="legend-boxes">
+                            <div class="legend-box" style="background: var(--heat-0);"></div>
+                            <div class="legend-box" style="background: var(--heat-1);"></div>
+                            <div class="legend-box" style="background: var(--heat-2);"></div>
+                            <div class="legend-box" style="background: var(--heat-3);"></div>
+                            <div class="legend-box" style="background: var(--heat-4);"></div>
+                            <div class="legend-box" style="background: var(--heat-5);"></div>
+                        </div>
+                        <span class="legend-label">More</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="calendar-tooltip" class="calendar-day-tooltip"></div>
+
+            <div class="card">
+                <h2>Year Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-value" id="total-chants">0</span>
+                        <span class="stat-label">Total Chants</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="days-completed">0</span>
+                        <span class="stat-label">Days Completed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="completion-rate">0%</span>
+                        <span class="stat-label">Completion Rate</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Target Settings</h2>
+                <div class="settings">
+                    <div class="target-type-selector">
+                        <button class="target-type-btn active" data-type="daily">Daily Target</button>
+                        <button class="target-type-btn" data-type="monthly">Monthly Target</button>
+                        <button class="target-type-btn" data-type="yearly">Yearly Target</button>
+                    </div>
+
+                    <div class="input-group" id="daily-target-group">
+                        <label for="daily-target-input">Daily Target:</label>
+                        <input type="number" id="daily-target-input" min="1" value="108">
+                    </div>
+
+                    <div class="input-group" id="monthly-target-group" style="display: none;">
+                        <label for="monthly-target-input">Monthly Target:</label>
+                        <input type="number" id="monthly-target-input" min="1" value="3240">
+                        <small style="color: var(--text-light);">Daily target will be calculated automatically</small>
+                    </div>
+
+                    <div class="input-group" id="yearly-target-group" style="display: none;">
+                        <label for="yearly-target-input">Yearly Target:</label>
+                        <input type="number" id="yearly-target-input" min="1" value="39420">
+                        <small style="color: var(--text-light);">Monthly and daily targets will be calculated
+                            automatically</small>
+                    </div>
+
+                    <button id="save-target" class="btn-primary">Save Target</button>
+
+                    <div id="calculated-targets"
+                        style="display: none; margin-top: 15px; padding: 15px; background: var(--background); border-radius: 8px;">
+                        <p style="font-weight: 600; margin-bottom: 10px;">Calculated Targets:</p>
+                        <div id="target-breakdown">
+                            <p><strong>Daily:</strong> <span id="calc-daily">0</span> chants</p>
+                            <p><strong>Monthly:</strong> <span id="calc-monthly">0</span> chants</p>
+                            <p><strong>Yearly:</strong> <span id="calc-yearly">0</span> chants</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </main>
+
+        <footer>
+            <p>Your progress is saved locally on your device</p>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                <button id="install-btn" class="btn-install" style="display: none;">📲 Install App</button>
+                <button id="test-notify-btn" class="btn-secondary" style="font-size: 0.9rem;">🔔 Test
+                    Notification</button>
+            </div>
+        </footer>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
