@@ -52,6 +52,9 @@ header {
     background: rgba(255, 255, 255, 0.3);
     padding: 20px;
     border-radius: 16px;
+    position: relative;
+    /* For absolute positioning of menu toggle */
+    padding-top: 20px;
 }
 
 header h1 {
@@ -560,5 +563,121 @@ footer p {
     .calendar-months {
         padding-left: 45px;
         /* Match weekday label width exactly */
+    }
+}
+
+/* Navigation Styles */
+.menu-toggle {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--saffron-dark);
+    z-index: 100;
+}
+
+.nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.nav-overlay.show {
+    display: block;
+    opacity: 1;
+}
+
+.side-nav {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    /* Hide off-screen initially */
+    width: 300px;
+    height: 100%;
+    background: var(--background);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    transition: left 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.side-nav.open {
+    left: 0;
+}
+
+.nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: var(--saffron);
+    color: white;
+}
+
+.nav-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.close-nav {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+}
+
+.nav-content {
+    padding: 20px;
+    flex: 1;
+}
+
+/* Adjust card styles for nav */
+.nav-card {
+    box-shadow: none;
+    border: 1px solid var(--border);
+    margin-bottom: 15px;
+    padding: 15px;
+}
+
+.nav-card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+/* Adjust stats grid for nav */
+.nav-stats-grid {
+    grid-template-columns: 1fr;
+    /* Stack vertically in nav */
+    gap: 10px;
+}
+
+.nav-stats-grid .stat-item {
+    padding: 10px;
+}
+
+.nav-stats-grid .stat-value {
+    font-size: 1.5rem;
+}
+
+/* Adjust header to accommodate menu button */
+/* Note: Added position: relative to header rule above */
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        left: 15px;
+        top: 15px;
     }
 }
