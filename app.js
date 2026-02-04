@@ -204,6 +204,23 @@ class ChantTracker {
             this.renderCalendar();
         });
 
+        // Navigation Menu
+        const nav = document.getElementById('side-nav');
+        const overlay = document.getElementById('nav-overlay');
+        const openBtn = document.getElementById('menu-toggle');
+        const closeBtn = document.getElementById('close-nav');
+
+        function toggleNav() {
+            if (nav && overlay) {
+                nav.classList.toggle('open');
+                overlay.classList.toggle('show');
+            }
+        }
+
+        if (openBtn) openBtn.addEventListener('click', toggleNav);
+        if (closeBtn) closeBtn.addEventListener('click', toggleNav);
+        if (overlay) overlay.addEventListener('click', toggleNav);
+
         document.getElementById('test-notify-btn')?.addEventListener('click', async () => {
             if (!('Notification' in window)) {
                 alert('This browser does not support notifications.');
@@ -445,7 +462,7 @@ class ChantTracker {
                             else if (percentage >= 80) heatLevel = 4;
                             else if (percentage >= 60) heatLevel = 3;
                             else if (percentage >= 40) heatLevel = 2;
-                            else if (percentage >= 20) heatLevel = 1;
+                            else heatLevel = 1; // Ensure any progress shows at least the first shade
                         }
                         dayDiv.style.background = `var(--heat-${heatLevel})`;
                         if (isToday) dayDiv.classList.add('today');
@@ -481,8 +498,24 @@ class ChantTracker {
     updateTooltipPosition(event) {
         const tooltip = document.getElementById('calendar-tooltip');
         if (tooltip) {
-            tooltip.style.left = `${event.clientX + 10}px`;
-            tooltip.style.top = `${event.clientY - 30}px`;
+            const padding = 10;
+            const tooltipRect = tooltip.getBoundingClientRect();
+
+            // Initial position (right of cursor)
+            let left = event.clientX + padding;
+            let top = event.clientY - 30;
+
+            // Check if tooltip goes off the right edge of the viewport
+            if (left + tooltipRect.width > window.innerWidth) {
+                // Flip to left of cursor
+                left = event.clientX - tooltipRect.width - padding;
+            }
+
+            // Ensure it doesn't go off the left edge
+            if (left < 0) left = padding;
+
+            tooltip.style.left = `${left}px`;
+            tooltip.style.top = `${top}px`;
         }
     }
     getDaysInYear() {
