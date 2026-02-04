@@ -16,9 +16,79 @@
 <body>
     <div class="container">
         <header>
+            <button id="menu-toggle" class="menu-toggle" aria-label="Open Menu">☰</button>
             <h1>Chant Tracker</h1>
             <div id="date-display" class="date-display"></div>
         </header>
+
+        <div id="nav-overlay" class="nav-overlay"></div>
+        <aside id="side-nav" class="side-nav">
+            <div class="nav-header">
+                <h2>Menu</h2>
+                <button id="close-nav" class="close-nav" aria-label="Close Menu">×</button>
+            </div>
+            <div class="nav-content">
+                <div class="card nav-card">
+                    <h2>Year Overview</h2>
+                    <div class="stats-grid nav-stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-value" id="total-chants">0</span>
+                            <span class="stat-label">Total Chants</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="days-completed">0</span>
+                            <span class="stat-label">Days Completed</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="completion-rate">0%</span>
+                            <span class="stat-label">Completion Rate</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card nav-card">
+                    <h2>Target Settings</h2>
+                    <div class="settings">
+                        <div class="target-type-selector">
+                            <button class="target-type-btn active" data-type="daily">Daily Target</button>
+                            <button class="target-type-btn" data-type="monthly">Monthly Target</button>
+                            <button class="target-type-btn" data-type="yearly">Yearly Target</button>
+                        </div>
+
+                        <div class="input-group" id="daily-target-group">
+                            <label for="daily-target-input">Daily Target:</label>
+                            <input type="number" id="daily-target-input" min="1" value="108">
+                        </div>
+
+                        <div class="input-group" id="monthly-target-group" style="display: none;">
+                            <label for="monthly-target-input">Monthly Target:</label>
+                            <input type="number" id="monthly-target-input" min="1" value="3240">
+                            <small style="color: var(--text-light);">Daily target will be calculated
+                                automatically</small>
+                        </div>
+
+                        <div class="input-group" id="yearly-target-group" style="display: none;">
+                            <label for="yearly-target-input">Yearly Target:</label>
+                            <input type="number" id="yearly-target-input" min="1" value="39420">
+                            <small style="color: var(--text-light);">Monthly and daily targets will be calculated
+                                automatically</small>
+                        </div>
+
+                        <button id="save-target" class="btn-primary">Save Target</button>
+
+                        <div id="calculated-targets"
+                            style="display: none; margin-top: 15px; padding: 15px; background: var(--background); border-radius: 8px;">
+                            <p style="font-weight: 600; margin-bottom: 10px;">Calculated Targets:</p>
+                            <div id="target-breakdown">
+                                <p><strong>Daily:</strong> <span id="calc-daily">0</span> chants</p>
+                                <p><strong>Monthly:</strong> <span id="calc-monthly">0</span> chants</p>
+                                <p><strong>Yearly:</strong> <span id="calc-yearly">0</span> chants</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
 
         <main>
             <div class="card">
@@ -84,67 +154,6 @@
             </div>
 
             <div id="calendar-tooltip" class="calendar-day-tooltip"></div>
-
-            <div class="card">
-                <h2>Year Overview</h2>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <span class="stat-value" id="total-chants">0</span>
-                        <span class="stat-label">Total Chants</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value" id="days-completed">0</span>
-                        <span class="stat-label">Days Completed</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value" id="completion-rate">0%</span>
-                        <span class="stat-label">Completion Rate</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>Target Settings</h2>
-                <div class="settings">
-                    <div class="target-type-selector">
-                        <button class="target-type-btn active" data-type="daily">Daily Target</button>
-                        <button class="target-type-btn" data-type="monthly">Monthly Target</button>
-                        <button class="target-type-btn" data-type="yearly">Yearly Target</button>
-                    </div>
-
-                    <div class="input-group" id="daily-target-group">
-                        <label for="daily-target-input">Daily Target:</label>
-                        <input type="number" id="daily-target-input" min="1" value="108">
-                    </div>
-
-                    <div class="input-group" id="monthly-target-group" style="display: none;">
-                        <label for="monthly-target-input">Monthly Target:</label>
-                        <input type="number" id="monthly-target-input" min="1" value="3240">
-                        <small style="color: var(--text-light);">Daily target will be calculated automatically</small>
-                    </div>
-
-                    <div class="input-group" id="yearly-target-group" style="display: none;">
-                        <label for="yearly-target-input">Yearly Target:</label>
-                        <input type="number" id="yearly-target-input" min="1" value="39420">
-                        <small style="color: var(--text-light);">Monthly and daily targets will be calculated
-                            automatically</small>
-                    </div>
-
-                    <button id="save-target" class="btn-primary">Save Target</button>
-
-                    <div id="calculated-targets"
-                        style="display: none; margin-top: 15px; padding: 15px; background: var(--background); border-radius: 8px;">
-                        <p style="font-weight: 600; margin-bottom: 10px;">Calculated Targets:</p>
-                        <div id="target-breakdown">
-                            <p><strong>Daily:</strong> <span id="calc-daily">0</span> chants</p>
-                            <p><strong>Monthly:</strong> <span id="calc-monthly">0</span> chants</p>
-                            <p><strong>Yearly:</strong> <span id="calc-yearly">0</span> chants</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
         </main>
 
         <footer>
